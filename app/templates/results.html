@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        p.location-text {
+            font-size: 1.9em;
+            margin: 20px 0;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-top: 30px;
+            color: #444;
+        }
+
+        hr {
+            width: 80%;
+            margin: 20px auto;
+            border: 0;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .charts-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 0 auto;
+            padding: 0 20px;
+            max-width: 1325px;
+        }
+
+        .chart-container {
+            flex: 1 1 auto;
+            max-width: calc(50% - 20px);
+            box-sizing: border-box;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                max-width: 100%;
+            }
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #0056b3;
+        }
+
+        #loading {
+            display: none;
+            font-weight: bold;
+            font-size: 1.5em;
+            color: #333;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #333;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .future-date-alert {
+            color: rgb(238, 121, 18);
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #555;
+            font-size: 0.9em;
+            border-top: 1px solid #ddd;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #0056b3;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <p class="location-text">{{ location_str|safe }}</p>
+    <p><em>Latitude & longitude points evaluated: {{ lat }}, {{ lon }}</em></p>
+
+    {% if is_future_date %}
+    <p class="future-date-alert">* Note: the date represented by the last data point in each chart has not happened yet and is therefore a forecast *</p>
+    {% endif %}
+
+    <!-- Loading message with spinner -->
+    <div id="loading">
+        <div class="spinner"></div>
+        Loading weather data...
+    </div>
+
+    <!-- Container for Chart 1 and Chart 2 to be displayed on the same line -->
+    <hr>
+    <h2>Temperature</h2>    
+    <div class="charts-row">
+        <div id="chart1" class="chart-container">
+            {{ chart1|safe }}
+        </div>
+        <div id="chart2" class="chart-container">
+            {{ chart2|safe }}
+        </div>
+        <div id="chart3" class="chart-container">
+            {{ chart3|safe }}
+        </div>
+    </div>
+
+    <hr>
+    <h2>Other Weather Metrics</h2>
+    <div class="charts-row">
+        {% for metric, chart_html in other_charts_html.items() %}
+            <div class="chart-container">
+                {{ chart_html|safe }}
+            </div>
+        {% endfor %}
+    </div>
+    <p><em>Precipitation is total precipitation on date. Cloud cover, humidity, and atmospheric pressure are afternoon snapshots.</em></p>
+
+    <a href="/" class="back-link">Back to search page</a>
+
+    <script>
+        // Show the loading message when the page is loading
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("loading").style.display = "none";
+        });
+    </script>
+
+    <footer>
+        <p>
+            Data Source: <a href="https://openweathermap.org/" target="_blank" rel="noopener noreferrer">OpenWeatherMap</a>
+        </p>
+        <p>
+            Project Details: <a href="https://github.com/nfeifel/WeatherTrends/blob/main/README.md" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualize Weather Trends</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* Ensure all inputs and selects have the same width */
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 100%; /* Ensures full width */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Includes padding and border in the width */
+            appearance: none; /* Removes default styling in some browsers */
+        }
+
+        input[type="submit"] {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background: #218838;
+        }
+
+        #loading {
+            display: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #333;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: left;
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]:focus, 
+        input[type="number"]:focus, 
+        select:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+
+        .advanced-options-toggle {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: underline;
+            font-size: 14px;
+            display: inline-block;
+            text-align: left;
+            width: auto;
+        }
+
+        .advanced-options {
+            display: none;
+            margin-top: 20px;
+        }
+
+        /* Style the error message */
+        #error-message {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            color: #721c24;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <h2>Search for a location and day to see how how weather there has trended over time.</h2>
+        <!-- <p>Search a location and day to see how how weather there has trended over time.</p> -->
+        <form id="weatherForm" action="/" method="post">
+            
+            <label for="location-input">Location:</label>
+            <input id="location-input" type="text" name="location-input" placeholder="Start typing a location">
+            <input type="hidden" id="cleaned-location" name="cleaned_location">
+
+            <label for="month">Month:</label>
+            <select id="month" name="month" required>
+                <script>
+                    // Array of month names
+                    const months = [
+                        { value: 1, name: "January" },
+                        { value: 2, name: "February" },
+                        { value: 3, name: "March" },
+                        { value: 4, name: "April" },
+                        { value: 5, name: "May" },
+                        { value: 6, name: "June" },
+                        { value: 7, name: "July" },
+                        { value: 8, name: "August" },
+                        { value: 9, name: "September" },
+                        { value: 10, name: "October" },
+                        { value: 11, name: "November" },
+                        { value: 12, name: "December" }
+                    ];
+            
+                    // Get the current month (1-12)
+                    const currentMonth = new Date().getMonth() + 1;
+            
+                    // Create the dropdown options
+                    months.forEach(month => {
+                        const option = document.createElement('option');
+                        option.value = month.value;
+                        option.textContent = month.name;
+            
+                        // Set the current month as the default value
+                        if (month.value === currentMonth) {
+                            option.selected = true;
+                        }
+            
+                        document.getElementById('month').appendChild(option);
+                    });
+                </script>
+            </select>            
+
+            <label for="day">Day:</label>
+            <select id="day" name="day" required>
+                <script>
+                    // Get the current day (1-31)
+                    const currentDay = new Date().getDate() - 1;
+
+                    // Create the dropdown options for days 1 through 31
+                    for (let day = 1; day <= 31; day++) {
+                        const option = document.createElement('option');
+                        option.value = day;
+                        option.textContent = day;
+
+                        // Set the current day as the default value
+                        if (day === currentDay) {
+                            option.selected = true;
+                        }
+
+                        document.getElementById('day').appendChild(option);
+                    }
+                </script>
+            </select>
+
+            <label for="start_year">Start Year:</label>
+            <select id="start_year" name="start_year" required>
+                <script>
+                    // Getting yesterday's date
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    const currentYear = yesterday.getFullYear();
+
+                    // Populate start_year
+                    const startYearSelect = document.getElementById('start_year');
+                    for (let year = 1980; year <= currentYear; year++) {
+                        const option = document.createElement('option');
+                        option.value = year;
+                        option.textContent = year;
+                        if (year === 2000) {
+                            option.selected = true; // Default value for start_year
+                        }
+                        startYearSelect.appendChild(option);
+                    }
+                </script>
+            </select>
+
+            <label for="end_year">End Year:</label>
+            <select id="end_year" name="end_year" required>
+                <script>
+                    // Populate end_year
+                    const endYearSelect = document.getElementById('end_year');
+                    for (let year = 1980; year <= currentYear; year++) {
+                        const option = document.createElement('option');
+                        option.value = year;
+                        option.textContent = year;
+                        if (year === currentYear) {
+                            option.selected = true; // Default value for end_year
+                        }
+                        endYearSelect.appendChild(option);
+                    }
+                </script>
+            </select>
+            
+            <!-- Toggle button for Advanced Options -->
+            <div class="advanced-options-toggle" onclick="toggleAdvancedOptions()">Show Advanced Search Options</div>
+            
+            <!-- Advanced Options Section -->
+            <div class="advanced-options" id="advanced-options">
+                <label for="unit_system">Unit System:</label>
+                <select id="unit_system" name="unit_system">
+                    <option value="imperial" selected>Imperial (e.g. °F)</option>
+                    <option value="metric">Metric (e.g. °C)</option>
+                </select>
+            </div>
+
+            <input type="submit" value="Submit">
+            
+            <!-- Div for displaying the error message -->
+            <div id="error-message" style="display: none; color: #d9534f; font-weight: bold; margin-top: 10px;"></div>
+
+        </form>
+        
+
+        <!-- Loading message with spinner -->
+        <div id="loading">
+            <div class="spinner"></div>
+            Loading weather data...
+        </div>
+
+        {% if chart %}
+            <h2>Generated Chart:</h2>
+            <div id="chart-container">
+                {{ chart|safe }}
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function toggleAdvancedOptions() {
+            const advancedOptions = document.getElementById('advanced-options');
+            const toggleButton = document.querySelector('.advanced-options-toggle');
+
+            if (advancedOptions.style.display === 'none' || advancedOptions.style.display === '') {
+                advancedOptions.style.display = 'block';
+                toggleButton.textContent = 'Hide Advanced Search Options';
+            } else {
+                advancedOptions.style.display = 'none';
+                toggleButton.textContent = 'Show Advanced Search Options';
+            }
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGB416jvbo56nBAg7CEKAA9JsjWwuauCg&libraries=places"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+
+</body>
+</html>

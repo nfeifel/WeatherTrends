@@ -1,0 +1,5 @@
+{
+    "data": "http://api.openweathermap.org/data/3.0/",
+    "geo": "http://api.openweathermap.org/geo/1.0/",
+    "air_pollution": "https://openweathermap.org/api/air-pollution"
+}
