@@ -24,7 +24,8 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
         yaxis_title=f'Temperature ({y_axis_unit})' if is_temperature else metric_label,
         xaxis=dict(
             tickvals=tickvals,
-            ticktext=ticktext
+            ticktext=ticktext,
+            fixedrange=True
         ),
         legend=dict(
             x=0.5, y=0.96,
@@ -40,8 +41,9 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
         ),
         plot_bgcolor='rgba(0,0,0,0)',
         margin=dict(l=50, r=50, t=50, b=50),
-        # width=625,
-        # height=300,
+        hovermode='closest',  # Enable tooltips
+        dragmode=False,       # Disable panning and box select
+        yaxis=dict(fixedrange=True),  # Disable zoom on y-axis
         annotations=[
             dict(
                 text=f"<b>{month} {day} | {location}</b>",
@@ -89,4 +91,16 @@ def create_weather_chart(
 
     fig.update_layout(**create_layout(label_names_string, metric_label, is_temperature, tickvals, ticktext, month, day, location, units))
 
-    return fig.to_html(full_html=False, include_plotlyjs='cdn', config={'staticPlot': False, 'displayModeBar': False, 'scrollZoom': False})
+    # Enable tooltips and download option, disable other interactivity
+    config = {
+        'staticPlot': False,  # Allows interactivity (tooltips)
+        'displayModeBar': True,  # Show the mode bar for downloading
+        'scrollZoom': False,  # Disable zooming with scroll
+        'displaylogo': False,  # Remove the Plotly logo
+        'modeBarButtonsToRemove': ['zoom2d', 'pan2d', 'select2d', 'lasso2d', 
+                                   'zoomIn2d', 'zoomOut2d', 'autoScale2d', 
+                                   'resetScale2d', 'hoverCompareCartesian', 
+                                   'hoverClosestCartesian', 'toggleSpikelines']
+    }
+
+    return fig.to_html(full_html=False, include_plotlyjs='cdn', config=config)
