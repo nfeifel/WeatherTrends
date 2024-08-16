@@ -35,6 +35,8 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
             borderwidth=0.5,
             font=dict(size=12)
         ),
+        autosize=True,
+        height=None,  # Let the container control the height
         hoverlabel=dict(
             bgcolor="white",
             font_size=14
