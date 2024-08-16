@@ -40,8 +40,8 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
         ),
         plot_bgcolor='rgba(0,0,0,0)',
         margin=dict(l=50, r=50, t=50, b=50),
-        width=625,
-        height=300,
+        # width=625,
+        # height=300,
         annotations=[
             dict(
                 text=f"<b>{month} {day} | {location}</b>",
