@@ -1,4 +1,4 @@
-# WeatherTrends
+# Weather Trends
 
 This is a tool for exploring weather trends over time. 1980 - the first year the tool offers searching from - is hardly a long time ago in one respect. With that said, it **is** long enough ago that we can start to see trends take shape over the recent decades, and it allows us to put in context present day environmental measurements.
 
