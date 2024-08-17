@@ -7,3 +7,10 @@ This is a tool for exploring weather trends over time. 1980 - the first year the
 Why did I make this? I've recently developed an interest in gaining a clearer understanding of the current state of the environment. As a first step, I'm creating ways - like with this tool - to get first hand experience with environmental data. More to come.
 
 This project leverages the [Google Maps Places API](https://developers.google.com/maps/documentation/places/web-service/search-find-place) for location searching, and the [Open Weather Map One Call API](https://openweathermap.org/api/one-call-3) for sourcing weather data.
+
+Sample charts created from the tool:
+<p align="center">
+  <a href="http://54.175.13.213/">
+      <img src="https://github.com/nfeifel/WeatherTrends/blob/main/cover_image.png" alt="My Image" width="900" />
+  </a>
+</p>
