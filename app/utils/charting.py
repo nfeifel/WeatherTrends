@@ -16,9 +16,9 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
     return dict(
         title=dict(
             text=f'{label_names_string} Over Time',
-            x=0.5, y=0.99,
+            x=0.5, y=0.95,
             xanchor='center', yanchor='top',
-            font=dict(size=18, weight='bold')
+            font=dict(size=16, weight='bold')
         ),
         xaxis_title='Year',
         yaxis_title=f'Temperature ({y_axis_unit})' if is_temperature else metric_label,
@@ -28,12 +28,12 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
             fixedrange=True
         ),
         legend=dict(
-            x=0.5, y=0.96,
-            xanchor='center', yanchor='bottom',
+            x=0.5, y=1.18,
+            xanchor='center', yanchor='top',
             orientation='h',
             bordercolor='Grey',
             borderwidth=0.5,
-            font=dict(size=12)
+            font=dict(size=10)
         ),
         autosize=True,
         height=None,  # Let the container control the height
@@ -47,7 +47,7 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
         yaxis=dict(fixedrange=True),  # Disable zoom on y-axis
         annotations=[
             dict(
-                text=f"<b>{month} {day} | {location}</b>",
+                text=f"<b>{month} {day}<br>{location}</b>",
                 xref='paper', yref='paper',
                 x=-0.08, y=-0.15,
                 xanchor='left', yanchor='top',
@@ -88,7 +88,7 @@ def create_weather_chart(
 
     tickvals, ticktext = calculate_ticks(years)
 
-    label_names_string = ' and '.join(label_names_list) + ' Temperature' if is_temperature else metric_label
+    label_names_string = ' & '.join(label_names_list) + ' Temperature' if is_temperature else metric_label
 
     fig.update_layout(**create_layout(label_names_string, metric_label, is_temperature, tickvals, ticktext, month, day, location, units))
 
