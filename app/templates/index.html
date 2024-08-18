@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Weather Trends</title>
     <style>
         body {
@@ -142,27 +142,6 @@
             }
         }
     </style>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var locationInput = document.getElementById("location-input");
-
-            locationInput.addEventListener("focus", function() {
-                // Save the initial scale value
-                var initialScale = document.body.style.zoom;
-                
-                setTimeout(function() {
-                    locationInput.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
-                    document.body.style.zoom = "2.0"; // Zoom in to make it easier to type
-                }, 300);
-            });
-
-            locationInput.addEventListener("blur", function() {
-                // Restore the original zoom after input is selected
-                document.body.style.zoom = initialScale || "1.0";
-            });
-        });
-    </script>
 
 </head>
 <body>
