@@ -28,11 +28,11 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
             fixedrange=True
         ),
         legend=dict(
-            x=0.5, y=1.18,
+            x=0.5, y=1.14,
             xanchor='center', yanchor='top',
             orientation='h',
             bordercolor='Grey',
-            borderwidth=0.5,
+            borderwidth=0.25,
             font=dict(size=11)
         ),
         autosize=True,
@@ -47,12 +47,14 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
         yaxis=dict(fixedrange=True),  # Disable zoom on y-axis
         annotations=[
             dict(
-                text=f"<b>{month} {day} <br> {location}</b>",
+                text=f"{month} {day} | {location}",
                 xref='paper', yref='paper',
-                x=-0.15, y=-0.15,
-                xanchor='left', yanchor='top',
+                # x=-0.15, y=-0.15,
+                # xanchor='left', yanchor='top',
+                x=0.5, y=1.23,
+                xanchor='center', yanchor='top',
                 showarrow=False,
-                font=dict(size=11, color='Grey')
+                font=dict(size=12, color='Grey')
             )
         ]
     )
