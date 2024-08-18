@@ -47,12 +47,12 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
         yaxis=dict(fixedrange=True),  # Disable zoom on y-axis
         annotations=[
             dict(
-                text=f"<b>{month} {day}<br>{location}</b>",
+                text=f"<b>{month} {day} <br> {location}</b>",
                 xref='paper', yref='paper',
-                x=-0.08, y=-0.15,
+                x=-0.15, y=-0.15,
                 xanchor='left', yanchor='top',
                 showarrow=False,
-                font=dict(size=12, color='Grey')
+                font=dict(size=10, color='Grey')
             )
         ]
     )
