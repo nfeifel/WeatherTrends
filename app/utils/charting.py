@@ -42,7 +42,6 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
             font_size=14
         ),
         plot_bgcolor='rgba(0,0,0,0)',
-        margin=dict(l=50, r=50, t=50, b=50),
         hovermode='closest',  # Enable tooltips
         dragmode=False,       # Disable panning and box select
         yaxis=dict(fixedrange=True),  # Disable zoom on y-axis
