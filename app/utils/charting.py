@@ -49,8 +49,6 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
             dict(
                 text=f"{month} {day} | {location}",
                 xref='paper', yref='paper',
-                # x=-0.15, y=-0.15,
-                # xanchor='left', yanchor='top',
                 x=0.5, y=1.23,
                 xanchor='center', yanchor='top',
                 showarrow=False,
