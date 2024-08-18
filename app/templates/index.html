@@ -288,6 +288,16 @@
     </div>
 
     <script>
+        document.getElementById('weatherForm').addEventListener('submit', function(event) {
+            // Show the loading spinner
+            document.getElementById('loading').style.display = 'block';
+    
+            // Optionally, hide the submit button to prevent multiple submissions
+            event.target.querySelector('input[type="submit"]').style.display = 'none';
+        });
+    </script>
+
+    <script>
         function toggleAdvancedOptions() {
             const advancedOptions = document.getElementById('advanced-options');
             const toggleButton = document.querySelector('.advanced-options-toggle');
