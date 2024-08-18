@@ -15,10 +15,10 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
     y_axis_unit = '°F' if units == 'imperial' else '°C'
     return dict(
         title=dict(
-            text=f'{label_names_string} Over Time',
+            text=f'{label_names_string}',
             x=0.5, y=0.95,
             xanchor='center', yanchor='top',
-            font=dict(size=16, weight='bold')
+            font=dict(size=17, weight='bold')
         ),
         xaxis_title='Year',
         yaxis_title=f'Temperature ({y_axis_unit})' if is_temperature else metric_label,
@@ -33,7 +33,7 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
             orientation='h',
             bordercolor='Grey',
             borderwidth=0.5,
-            font=dict(size=10)
+            font=dict(size=11)
         ),
         autosize=True,
         height=None,  # Let the container control the height
@@ -52,7 +52,7 @@ def create_layout(label_names_string: str, metric_label: str, is_temperature: bo
                 x=-0.15, y=-0.15,
                 xanchor='left', yanchor='top',
                 showarrow=False,
-                font=dict(size=10, color='Grey')
+                font=dict(size=11, color='Grey')
             )
         ]
     )
