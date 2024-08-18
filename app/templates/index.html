@@ -134,6 +134,34 @@
 
     </style>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        @media only screen and (max-width: 600px) {
+            input[type="text"], input[type="number"], select {
+                background-color: white !important; /* Force white background */
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var locationInput = document.getElementById("location-input");
+
+            locationInput.addEventListener("focus", function() {
+                // Save the initial scale value
+                var initialScale = document.body.style.zoom;
+                
+                setTimeout(function() {
+                    locationInput.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+                    document.body.style.zoom = "2.0"; // Zoom in to make it easier to type
+                }, 300);
+            });
+
+            locationInput.addEventListener("blur", function() {
+                // Restore the original zoom after input is selected
+                document.body.style.zoom = initialScale || "1.0";
+            });
+        });
+    </script>
 
 </head>
 <body>
